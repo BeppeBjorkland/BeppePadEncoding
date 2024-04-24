@@ -79,7 +79,7 @@ namespace BitStringEncoding
                     {
                         List<bool> tempValue = (binaryString + padding).Select(c => c == '1').ToList();
                         characterDictionary.Add(characterList[index], string.Concat(tempValue.Select(b => b ? "1" : "0")));
-                        Console.WriteLine(characterDictionary.Last().Key + " " + characterDictionary.Last().Value);
+                        //Console.WriteLine(characterDictionary.Last().Key + " " + characterDictionary.Last().Value);
                         index++;
                     }
 
@@ -105,46 +105,46 @@ namespace BitStringEncoding
                 }
             }
 
-            //Console.WriteLine("\n" + string.Join("", output.Cast<bool>().Select(b => b ? "1" : "0")));
-            Console.WriteLine($"Input characters: {input.Length}");
+            Console.WriteLine("\n" + string.Join("", output.Cast<bool>().Select(b => b ? "1" : "0")));
+            //Console.WriteLine($"Input characters: {input.Length}");
 
-            Console.WriteLine($"Encode time: {DateTime.Now - encodeTime}");
+            Console.WriteLine($"Encode time: {DateTime.Now - encodeTime}\n");
 
 
-            Dictionary<string, int> sequenceFrequency = new Dictionary<string, int>();
-            string workString = string.Concat(output.Select(b => b ? "1" : "0"));
-            char currentChar = workString[0];
-            int sequenceCount = 1;
-            for (int i = 1; i < workString.Length; i++)
-            {
-                if (workString[i] == currentChar)
-                {
-                    sequenceCount++;
-                }
-                else
-                {
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.Append(currentChar, sequenceCount);
-                    if (!sequenceFrequency.ContainsKey(stringBuilder.ToString()))
-                    {
-                        sequenceFrequency.Add(stringBuilder.ToString(), 1);
-                    }
-                    else
-                    {
-                        sequenceFrequency[stringBuilder.ToString()]++;
-                    }
+            //Dictionary<string, int> sequenceFrequency = new Dictionary<string, int>();
+            //string workString = string.Concat(output.Select(b => b ? "1" : "0"));
+            //char currentChar = workString[0];
+            //int sequenceCount = 1;
+            //for (int i = 1; i < workString.Length; i++)
+            //{
+            //    if (workString[i] == currentChar)
+            //    {
+            //        sequenceCount++;
+            //    }
+            //    else
+            //    {
+            //        StringBuilder stringBuilder = new StringBuilder();
+            //        stringBuilder.Append(currentChar, sequenceCount);
+            //        if (!sequenceFrequency.ContainsKey(stringBuilder.ToString()))
+            //        {
+            //            sequenceFrequency.Add(stringBuilder.ToString(), 1);
+            //        }
+            //        else
+            //        {
+            //            sequenceFrequency[stringBuilder.ToString()]++;
+            //        }
 
-                    currentChar = workString[i];
-                    sequenceCount = 1;
-                }
-            }
-            var sequenceFrequencyList = sequenceFrequency.ToList();
-            sequenceFrequencyList.Sort((x, y) => x.Value - y.Value);
+            //        currentChar = workString[i];
+            //        sequenceCount = 1;
+            //    }
+            //}
+            //var sequenceFrequencyList = sequenceFrequency.ToList();
+            //sequenceFrequencyList.Sort((x, y) => x.Value - y.Value);
 
-            foreach (var sequence in sequenceFrequencyList)
-            {
-                Console.WriteLine($"Sequence: {sequence.Key}, Frequency: {sequence.Value}");
-            }
+            //foreach (var sequence in sequenceFrequencyList)
+            //{
+            //    Console.WriteLine($"Sequence: {sequence.Key}, Frequency: {sequence.Value}");
+            //}
 
 
             return output;
@@ -152,7 +152,12 @@ namespace BitStringEncoding
 
         public string DecodeText(List<bool> input)
         {
+            TimeSpan trueEqualTime = new TimeSpan();
+            TimeSpan addCharacterTime = new TimeSpan();
+            TimeSpan itteratingStartTime = new TimeSpan();
             DateTime decodeTime = DateTime.Now;
+            DateTime beforeStringTime = DateTime.Now;
+
             var inverseDict = characterDictionary.ToDictionary(x => x.Value, x => x.Key);
 
             int characters = 0;
@@ -163,6 +168,7 @@ namespace BitStringEncoding
 
             for (int i = input.Count; i >= 0; i--)
             {
+                DateTime itteratingStart = DateTime.Now;
                 int startIndex = Math.Max(i - padding.Length, 0);
 
                 List<bool> inputCheck = new List<bool>(); // To Check if a padding is found
@@ -173,6 +179,7 @@ namespace BitStringEncoding
                     inputCheck.Add(input[j]);
                     //Console.Write(input[j] + " ");
                 }
+                itteratingStartTime += DateTime.Now - itteratingStart;
                 //Console.WriteLine();
 
                 //foreach (var test in inputCheck)
@@ -185,7 +192,7 @@ namespace BitStringEncoding
                 //    Console.Write(test + " ");
                 //}
                 //Console.WriteLine($"\ninput len: {inputCheck.Count}, padding len: {paddingBits.Count}");
-
+                DateTime equalTime = DateTime.Now;
                 bool isEqual = false;
                 if (inputCheck.Count == paddingBits.Count)
                 {
@@ -199,6 +206,9 @@ namespace BitStringEncoding
                         }
                     }
                 }
+                trueEqualTime += DateTime.Now - equalTime;
+
+                DateTime charactersTime = DateTime.Now;
                 if (isEqual)
                 {
                     characters++;
@@ -223,9 +233,12 @@ namespace BitStringEncoding
 
                     lastCharacterStart = i;
                 }
-
+                addCharacterTime += DateTime.Now - charactersTime;
 
             }
+
+
+            DateTime makeOutputTime = DateTime.Now;
             string output = "";
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -244,12 +257,17 @@ namespace BitStringEncoding
                 }
             }
             output = ReverseString(stringBuilder.ToString());
+
+            //Console.WriteLine("String creation time: " + (DateTime.Now - makeOutputTime).TotalSeconds);
+            //Console.WriteLine("Itterating start time:" + itteratingStartTime.TotalSeconds);
+            //Console.WriteLine("Add characters time: " + addCharacterTime.TotalSeconds);
+            //Console.WriteLine("True equal time: " + trueEqualTime.TotalSeconds);
             //Console.WriteLine(output);
+
+            Console.WriteLine($"Decode time: {(DateTime.Now - decodeTime).TotalSeconds}\n");
+
             Console.WriteLine($"Encoded bits: {input.Count}, UTF-8 bits: {Encoding.UTF8.GetByteCount(output) * 8}");
             Console.WriteLine($"Encoded percentage: {input.Count / (float)(Encoding.UTF8.GetByteCount(output) * 8) * 100}%");
-
-            Console.WriteLine($"Decode time: {DateTime.Now - decodeTime}");
-
             return output;
         }
 
@@ -264,6 +282,8 @@ namespace BitStringEncoding
         public string RunLengthEncoder(string input)
         {
             StringBuilder stringBuilder = new StringBuilder();
+
+            input = InvertBinaryString(input);
 
             if (input[0] == '0' && input[1] == '0') { stringBuilder.Append('0'); }
             else { stringBuilder.Append('1'); }
@@ -328,6 +348,18 @@ namespace BitStringEncoding
 
 
             return stringBuilder.ToString();
+        }
+
+        public static string InvertBinaryString(string binaryString)
+        {
+            char[] charArray = binaryString.ToCharArray();
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                charArray[i] = charArray[i] == '0' ? '1' : '0';
+            }
+
+            return new string(charArray);
         }
     }
 }
