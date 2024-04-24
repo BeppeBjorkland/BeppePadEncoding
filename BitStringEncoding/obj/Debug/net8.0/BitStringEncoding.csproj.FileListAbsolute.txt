@@ -1,0 +1,14 @@
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\bin\Debug\net8.0\BitStringEncoding.exe
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\bin\Debug\net8.0\BitStringEncoding.deps.json
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\bin\Debug\net8.0\BitStringEncoding.runtimeconfig.json
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\bin\Debug\net8.0\BitStringEncoding.dll
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\bin\Debug\net8.0\BitStringEncoding.pdb
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.AssemblyInfoInputs.cache
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.AssemblyInfo.cs
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.csproj.CoreCompileInputs.cache
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.dll
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\refint\BitStringEncoding.dll
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.pdb
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\BitStringEncoding.genruntimeconfig.cache
+C:\Users\beppe.bjorkland\Desktop\Programming Projects\BitStringEncoding\obj\Debug\net8.0\ref\BitStringEncoding.dll
