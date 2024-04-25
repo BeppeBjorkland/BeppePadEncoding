@@ -11,7 +11,7 @@ namespace BitStringEncoding
     public class BitSequence
     {
         public byte[] value { get; set; }
-        public int bits { get; set; }
+        public ulong bits { get; set; }
         
 
         public BitSequence(BitSequence bitSequence)
@@ -19,22 +19,22 @@ namespace BitStringEncoding
             this.value = bitSequence.value;
             this.bits = bitSequence.bits;
         }
-        public BitSequence(int bits)
+        public BitSequence(ulong bits)
         {
-            this.value = new byte[bits % 8];
+            this.value = new byte[(bits - (bits % 8)) / 8 + 1];
             this.bits = bits;
         }
         public BitSequence(bool[] boolInput)
         {
             byte[] output = new byte[(boolInput.Length - (boolInput.Length % 8)) / 8 + 1];
 
-            for (int i = 0; i < boolInput.Length; i++)
+            for (ulong i = 0; i < (ulong)boolInput.Length; i++)
             {
                 output.SetBitInByte(i, boolInput[i]);
             }
 
             this.value = output;
-            this.bits = boolInput.Length;
+            this.bits = (ulong)boolInput.Length;
         }
     }
 
@@ -42,7 +42,7 @@ namespace BitStringEncoding
 
     public static class BitSequenceExtensions
     {
-        public static BitSequence SetBitInSequence(this BitSequence bitSequence, int index, bool value)
+        public static BitSequence SetBitInSequence(this BitSequence bitSequence, ulong index, bool value)
         {
             index = Math.Min(bitSequence.bits, index);
 
@@ -51,7 +51,21 @@ namespace BitStringEncoding
             return bitSequence;
         }
 
-        public static BitSequence Add(this BitSequence bitSequence, bool value)
+        public static BitSequence AddOne(this BitSequence bitSequence, bool value)
+        {
+            if (bitSequence.bits < 8 + bitSequence.bits - (bitSequence.bits % 8))
+            {
+                bitSequence.value = bitSequence.value.AddByte().SetBitInByte(bitSequence.bits, value);
+            }
+            else
+            {
+                bitSequence.value = bitSequence.value.SetBitInByte(bitSequence.bits, value);
+            }
+            bitSequence.bits++;
+
+            return bitSequence;
+        }
+        public static BitSequence AddTwo(this BitSequence bitSequence, bool value)
         {
             if (bitSequence.bits < 8 + bitSequence.bits - (bitSequence.bits % 8))
             {
@@ -67,6 +81,10 @@ namespace BitStringEncoding
         }
 
         // Make a function to return a byte[] or bool[] of the values in a range
+        //public static BitSequence Range(this BitSequence bitSequence, int rangeStart, int rangeEnd)
+        //{
+        //    BitSequence output = 
+        //}
     }
 
 
@@ -88,10 +106,10 @@ namespace BitStringEncoding
 
 
 
-        public static byte[] SetBitInByte(this byte[] inputBytes, int index, bool value) 
+        public static byte[] SetBitInByte(this byte[] inputBytes, ulong index, bool value) 
         {
-            int bitIndex = index % 8;
-            int byteIndex = (index - bitIndex) / 8;
+            int bitIndex = (int)(index % 8);
+            ulong byteIndex = (index - (ulong)bitIndex) / 8;
             inputBytes[byteIndex] = inputBytes[byteIndex].SetBit(bitIndex, value);
 
             return inputBytes;
@@ -107,6 +125,57 @@ namespace BitStringEncoding
             {
                 output[i] = inputBytes[i];
             }
+
+            if (value)
+            {
+                output[inputBytes.Length] = byte.MaxValue;
+            }
+            else
+            {
+                output[inputBytes.Length] = byte.MinValue;
+            }
+
+            return output;
+        }
+        public static byte[] AddByteTwo(this byte[] inputBytes, bool value = false)
+        {
+            byte[] output = new byte[inputBytes.Length + 1];
+
+            Buffer.BlockCopy(inputBytes, 0, output, 0, inputBytes.Length);
+
+            if (value)
+            {
+                output[inputBytes.Length] = byte.MaxValue;
+            }
+            else
+            {
+                output[inputBytes.Length] = byte.MinValue;
+            }
+
+            return output;
+        }
+        public static byte[] AddByteThree(this byte[] inputBytes, bool value = false)
+        {
+            byte[] output = new byte[inputBytes.Length + 1];
+
+            Array.Copy(inputBytes, output, inputBytes.Length);
+
+            if (value)
+            {
+                output[inputBytes.Length] = byte.MaxValue;
+            }
+            else
+            {
+                output[inputBytes.Length] = byte.MinValue;
+            }
+
+            return output;
+        }
+        public static byte[] AddByteFour(this byte[] inputBytes, bool value = false)
+        {
+            byte[] output = new byte[inputBytes.Length + 1];
+
+            Array.Resize(ref inputBytes, inputBytes.Length + 1);
 
             if (value)
             {

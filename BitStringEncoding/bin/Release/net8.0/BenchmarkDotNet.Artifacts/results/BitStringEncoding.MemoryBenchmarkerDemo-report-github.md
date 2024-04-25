@@ -8,15 +8,13 @@ BenchmarkDotNet v0.13.12, Windows 11 (10.0.22621.3447/22H2/2022Update/SunValley2
 
 
 ```
-| Method                     | Mean | Error |
-|--------------------------- |-----:|------:|
-| BenchmarkSetBitInByteOne   |   NA |    NA |
-| BenchmarkSetBitInByteTwo   |   NA |    NA |
-| BenchmarkSetBitInByteThree |   NA |    NA |
-| BenchmarkSetBitInByteFour  |   NA |    NA |
+| Method       | Mean | Error |
+|------------- |-----:|------:|
+| AddByteOne   |   NA |    NA |
+| AddByteTwo   |   NA |    NA |
+| AddByteThree |   NA |    NA |
 
 Benchmarks with issues:
-  MemoryBenchmarkerDemo.BenchmarkSetBitInByteOne: DefaultJob
-  MemoryBenchmarkerDemo.BenchmarkSetBitInByteTwo: DefaultJob
-  MemoryBenchmarkerDemo.BenchmarkSetBitInByteThree: DefaultJob
-  MemoryBenchmarkerDemo.BenchmarkSetBitInByteFour: DefaultJob
+  MemoryBenchmarkerDemo.AddByteOne: DefaultJob
+  MemoryBenchmarkerDemo.AddByteTwo: DefaultJob
+  MemoryBenchmarkerDemo.AddByteThree: DefaultJob

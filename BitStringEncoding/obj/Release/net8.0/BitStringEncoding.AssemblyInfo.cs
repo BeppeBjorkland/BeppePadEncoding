@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BitStringEncoding")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bac0305e42a60cbd9e4f6209f23fc29ba7da7ccb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f0fac0af01cadacba403653a0f616c41c87fac7")]
 [assembly: System.Reflection.AssemblyProductAttribute("BitStringEncoding")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BitStringEncoding")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

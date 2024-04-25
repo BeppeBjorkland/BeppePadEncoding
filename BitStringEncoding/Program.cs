@@ -13,10 +13,18 @@ namespace BitStringEncoding
 
         static void Main(string[] args)
         {
-            for (int i = 0; i < 10000; i += 1)
-            {
-                BitSequence temporary = new BitSequence(new bool[i]);
-            }
+            var summary = BenchmarkRunner.Run<MemoryBenchmarkerDemo>();
+
+            //BitSequence temporary = new BitSequence(1);
+            //for (int i = 0; i < 100000; i++)
+            //{
+            //    Console.WriteLine(i);
+            //    temporary = temporary.AddOne(true);
+            //}
+            //Console.WriteLine("Bits: " + temporary.bits);
+            //Console.WriteLine("Bytes: " + ((temporary.bits - (temporary.bits % 8)) / 8 + 1));
+
+
 
 
             //encodingTwo.BitWiseOperations();
@@ -55,6 +63,42 @@ namespace BitStringEncoding
 
             //Console.WriteLine("Total compute time: " + (DateTime.Now - start));
             //Console.WriteLine("Perfect conversion: " + (inputString == output));
+        }
+    }
+
+    [MemoryDiagnoser]
+    public class MemoryBenchmarkerDemo
+    {
+        int itterations = 10000;
+
+        [Benchmark]
+        public void AddByteOne()
+        {
+            byte[] byteArray = new byte[1];
+            for (int i = 0; i < itterations; i++)
+            {
+                byteArray = byteArray.AddByte();
+            }
+        }
+
+        [Benchmark]
+        public void AddByteTwo()
+        {
+            byte[] byteArray = new byte[1];
+            for (int i = 0; i < itterations; i++)
+            {
+                byteArray = byteArray.AddByteTwo();
+            }
+        }
+
+        [Benchmark]
+        public void AddByteThree()
+        {
+            byte[] byteArray = new byte[1];
+            for (int i = 0; i < itterations; i++)
+            {
+                byteArray = byteArray.AddByteThree();
+            }
         }
     }
 }
